@@ -65,22 +65,33 @@ export default function NewRequestDialog({
 
   const createRequestMutation = useMutation({
     mutationFn: async (data: FormData) => {
-      console.log("Making API request with data:", data);
-      const response = await apiRequest("POST", "/api/requests", data);
+      console.log("Submitting form data:", data);
+      const response = await fetch("/api/requests", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      
+      if (!response.ok) {
+        throw new Error("Failed to create request");
+      }
+      
       return await response.json();
     },
     onSuccess: (result) => {
-      console.log("Request created successfully:", result);
+      console.log("SUCCESS! Request created:", result);
       queryClient.invalidateQueries({ queryKey: ["/api/requests"] });
       toast({
-        title: "Request Created",
-        description: "Your service request has been submitted successfully.",
+        title: "Success!",
+        description: "Your service request has been created successfully!",
       });
       form.reset();
       onOpenChange(false);
     },
     onError: (error) => {
-      console.error("Error creating request:", error);
+      console.error("FORM ERROR:", error);
       toast({
         title: "Error",
         description: "Failed to create request. Please try again.",
