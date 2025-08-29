@@ -65,9 +65,11 @@ export default function NewRequestDialog({
 
   const createRequestMutation = useMutation({
     mutationFn: async (data: FormData) => {
+      console.log("Making API request with data:", data);
       return apiRequest("POST", "/api/requests", data);
     },
-    onSuccess: () => {
+    onSuccess: (result) => {
+      console.log("Request created successfully:", result);
       queryClient.invalidateQueries({ queryKey: ["/api/requests"] });
       toast({
         title: "Request Created",
@@ -77,6 +79,7 @@ export default function NewRequestDialog({
       onOpenChange(false);
     },
     onError: (error) => {
+      console.error("Error creating request:", error);
       if (isUnauthorizedError(error)) {
         toast({
           title: "Unauthorized",
@@ -97,6 +100,7 @@ export default function NewRequestDialog({
   });
 
   const onSubmit = (data: FormData) => {
+    console.log("Submitting request data:", data);
     createRequestMutation.mutate(data);
   };
 

@@ -18,7 +18,7 @@ interface GroundCrewDashboardProps {
 export default function GroundCrewDashboard({ onRequestSelect }: GroundCrewDashboardProps) {
   const { user } = useAuth();
   const { toast } = useToast();
-  const [selectedAirport, setSelectedAirport] = useState<string>("KJFK");
+  const [selectedAirport, setSelectedAirport] = useState<string>("IBAR");
   const [serviceFilter, setServiceFilter] = useState<string>("all");
 
   // Fetch airports

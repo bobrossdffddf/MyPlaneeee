@@ -19,7 +19,7 @@ interface PilotDashboardProps {
 export default function PilotDashboard({ onRequestSelect }: PilotDashboardProps) {
   const { user } = useAuth();
   const { toast } = useToast();
-  const [selectedAirport, setSelectedAirport] = useState<string>("KJFK");
+  const [selectedAirport, setSelectedAirport] = useState<string>("IBAR");
   const [showNewRequestDialog, setShowNewRequestDialog] = useState(false);
 
   // Fetch airports

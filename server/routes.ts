@@ -12,16 +12,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Initialize PTFS airports
   const ptfsAirports = [
-    { icao: "KJFK", name: "John F. Kennedy International Airport" },
-    { icao: "KLAX", name: "Los Angeles International Airport" },
-    { icao: "KORD", name: "Chicago O'Hare International Airport" },
-    { icao: "KATL", name: "Hartsfield-Jackson Atlanta International Airport" },
-    { icao: "KDEN", name: "Denver International Airport" },
-    { icao: "KDFW", name: "Dallas/Fort Worth International Airport" },
-    { icao: "KSEA", name: "Seattle-Tacoma International Airport" },
-    { icao: "KPHX", name: "Phoenix Sky Harbor International Airport" },
-    { icao: "KLAS", name: "Harry Reid International Airport" },
-    { icao: "KIAH", name: "George Bush Intercontinental Airport" },
+    { icao: "IBAR", name: "IBAR" },
+    { icao: "IHEN", name: "IHEN" },
+    { icao: "ILAR", name: "ILAR" },
+    { icao: "IIAB", name: "IIAB" },
+    { icao: "IPAP", name: "IPAP" },
+    { icao: "IGRV", name: "IGRV" },
+    { icao: "IJAF", name: "IJAF" },
+    { icao: "IZOL", name: "IZOL" },
+    { icao: "ISCM", name: "ISCM" },
+    { icao: "IDCS", name: "IDCS" },
+    { icao: "ITKO", name: "ITKO" },
+    { icao: "ILKL", name: "ILKL" },
+    { icao: "IPPH", name: "IPPH" },
+    { icao: "IGAR", name: "IGAR" },
+    { icao: "IBLT", name: "IBLT" },
+    { icao: "IRFD", name: "IRFD" },
+    { icao: "IMLR", name: "IMLR" },
+    { icao: "ITRC", name: "ITRC" },
+    { icao: "IBTH", name: "IBTH" },
+    { icao: "IUFO", name: "IUFO" },
+    { icao: "ISAU", name: "ISAU" },
+    { icao: "ISKP", name: "ISKP" },
   ];
 
   // Seed airports on startup
