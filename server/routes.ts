@@ -70,14 +70,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json(mockUser);
   });
 
-  // Airport routes
+  // Airport routes with fallback data
   app.get("/api/airports", async (req, res) => {
     try {
       const airports = await storage.getAirports();
       res.json(airports);
     } catch (error) {
-      console.error("Error fetching airports:", error);
-      res.status(500).json({ message: "Failed to fetch airports" });
+      console.error("Database unavailable, using fallback airports:", error);
+      // Fallback to hardcoded airports if database fails
+      res.json(ptfsAirports);
     }
   });
 

@@ -1,13 +1,6 @@
-import { Pool, neonConfig } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-serverless';
-import ws from "ws";
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
 import * as schema from "@shared/schema";
-
-neonConfig.webSocketConstructor = ws;
-// For Replit environment, disable WSS to avoid certificate issues  
-neonConfig.useSecureWebSocket = false;
-neonConfig.pipelineTLS = false;
-neonConfig.pipelineConnect = false;
 
 if (!process.env.DATABASE_URL) {
   throw new Error(
@@ -15,5 +8,10 @@ if (!process.env.DATABASE_URL) {
   );
 }
 
-export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-export const db = drizzle({ client: pool, schema });
+// Use postgres-js for better Replit compatibility
+const client = postgres(process.env.DATABASE_URL, { 
+  max: 1,
+  idle_timeout: 20,
+  connect_timeout: 10
+});
+export const db = drizzle(client, { schema });
