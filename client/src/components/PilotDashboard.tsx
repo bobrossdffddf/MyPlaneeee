@@ -80,8 +80,8 @@ export default function PilotDashboard({ onRequestSelect }: PilotDashboardProps)
               </SelectContent>
             </Select>
             <div className="flex-1"></div>
-            <span className="text-sm text-muted-foreground" data-testid="text-airport-name">
-              {selectedAirportName}
+            <span className="text-sm text-muted-foreground" data-testid="text-monitoring-airport">
+              Monitoring {selectedAirport}
             </span>
           </div>
         </Card>

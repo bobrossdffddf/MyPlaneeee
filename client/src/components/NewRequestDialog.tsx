@@ -123,7 +123,7 @@ export default function NewRequestDialog({
                       <SelectContent>
                         {airports.map((airport) => (
                           <SelectItem key={airport.icao} value={airport.icao}>
-                            {airport.icao} - {airport.name}
+                            {airport.icao}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -199,7 +199,7 @@ export default function NewRequestDialog({
                 <FormItem>
                   <FormLabel>Aircraft Type (Optional)</FormLabel>
                   <FormControl>
-                    <Input placeholder="Boeing 737-800" {...field} data-testid="input-aircraft" />
+                    <Input placeholder="Boeing 737-800" {...field} value={field.value || ""} data-testid="input-aircraft" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

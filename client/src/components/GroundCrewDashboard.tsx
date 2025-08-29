@@ -133,7 +133,7 @@ export default function GroundCrewDashboard({ onRequestSelect }: GroundCrewDashb
             </Select>
             <div className="flex-1"></div>
             <span className="text-sm text-muted-foreground" data-testid="text-monitoring-airport">
-              Currently monitoring {selectedAirport}
+              Monitoring {selectedAirport}
             </span>
           </div>
         </Card>

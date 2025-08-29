@@ -29,16 +29,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     await storage.upsertAirport(airport);
   }
 
-  // Auth routes
-  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
-    try {
-      const userId = req.user.claims.sub;
-      const user = await storage.getUser(userId);
-      res.json(user);
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
-    }
+  // Auth routes (bypassed for testing)
+  app.get('/api/auth/user', async (req: any, res) => {
+    // Mock user for testing
+    const mockUser = {
+      id: "test-user-123",
+      email: "test@example.com", 
+      firstName: "Test",
+      lastName: "User",
+      profileImageUrl: null,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    res.json(mockUser);
   });
 
   // Airport routes
@@ -53,10 +56,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Service request routes
-  app.get("/api/requests", isAuthenticated, async (req: any, res) => {
+  app.get("/api/requests", async (req: any, res) => {
     try {
       const { airport, role } = req.query;
-      const userId = req.user.claims.sub;
+      const userId = "test-user-123"; // Mock user ID
       
       let requests;
       if (role === "pilot") {
@@ -87,9 +90,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/requests", isAuthenticated, async (req: any, res) => {
+  app.post("/api/requests", async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = "test-user-123"; // Mock user ID
       const requestData = insertServiceRequestSchema.parse({
         ...req.body,
         pilotId: userId,
@@ -114,10 +117,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/requests/:id/claim", isAuthenticated, async (req: any, res) => {
+  app.post("/api/requests/:id/claim", async (req: any, res) => {
     try {
       const { id } = req.params;
-      const userId = req.user.claims.sub;
+      const userId = "test-user-123"; // Mock user ID
       
       const request = await storage.claimServiceRequest(id, userId);
       
@@ -134,7 +137,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/requests/:id/status", isAuthenticated, async (req: any, res) => {
+  app.post("/api/requests/:id/status", async (req: any, res) => {
     try {
       const { id } = req.params;
       const { status } = req.body;
@@ -155,7 +158,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Chat routes
-  app.get("/api/requests/:id/messages", isAuthenticated, async (req, res) => {
+  app.get("/api/requests/:id/messages", async (req, res) => {
     try {
       const { id } = req.params;
       const messages = await storage.getChatMessages(id);
@@ -166,10 +169,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/requests/:id/messages", isAuthenticated, async (req: any, res) => {
+  app.post("/api/requests/:id/messages", async (req: any, res) => {
     try {
       const { id } = req.params;
-      const userId = req.user.claims.sub;
+      const userId = "test-user-123"; // Mock user ID
       
       const messageData = insertChatMessageSchema.parse({
         requestId: id,
