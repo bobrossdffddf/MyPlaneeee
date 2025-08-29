@@ -241,29 +241,27 @@ export default function NewRequestDialog({
                 Cancel
               </Button>
               <Button 
-                type="button" 
-                onClick={() => {
-                  console.log("DIRECT BUTTON CLICKED!");
-                  createRequestMutation.mutate({
-                    airportIcao: "IBAR",
-                    serviceType: "fuel",
-                    gate: "A1",
-                    flightNumber: "TEST999",
-                    aircraft: "",
-                    description: "Direct button test",
-                    pilotId: ""
-                  });
-                }}
-                className="bg-red-500 hover:bg-red-600 text-white mr-2"
-              >
-                TEST DIRECT
-              </Button>
-              <Button 
-                type="submit" 
+                type="button"
                 disabled={createRequestMutation.isPending}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground"
                 data-testid="button-submit-request"
-                onClick={() => console.log("SUBMIT BUTTON CLICKED!")}
+                onClick={() => {
+                  console.log("BUTTON CLICKED!");
+                  const formData = form.getValues();
+                  console.log("Form data:", formData);
+                  
+                  // Validate required fields
+                  if (!formData.airportIcao || !formData.serviceType || !formData.gate || !formData.flightNumber || !formData.description) {
+                    toast({
+                      title: "Missing Fields",
+                      description: "Please fill out all required fields.",
+                      variant: "destructive",
+                    });
+                    return;
+                  }
+                  
+                  createRequestMutation.mutate(formData);
+                }}
               >
                 {createRequestMutation.isPending ? "Creating..." : "Create Request"}
               </Button>
