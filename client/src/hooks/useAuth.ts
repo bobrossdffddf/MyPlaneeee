@@ -1,19 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 
-// Mock user for testing without authentication
-const mockUser = {
-  id: "test-user-123",
-  email: "test@example.com",
-  firstName: "Test",
-  lastName: "User",
-  profileImageUrl: null,
-};
-
 export function useAuth() {
-  // For now, bypass authentication and return mock user
+  const { data: user, isLoading } = useQuery({
+    queryKey: ["/api/auth/user"],
+    retry: false,
+  });
+
   return {
-    user: mockUser,
-    isLoading: false,
-    isAuthenticated: true,
+    user,
+    isLoading,
+    isAuthenticated: !!user,
   };
 }

@@ -13,7 +13,13 @@ function Router() {
 
   return (
     <Switch>
-      <Route path="/" component={Home} />
+      {isLoading || !isAuthenticated ? (
+        <Route path="/" component={Landing} />
+      ) : (
+        <>
+          <Route path="/" component={Home} />
+        </>
+      )}
       <Route component={NotFound} />
     </Switch>
   );
