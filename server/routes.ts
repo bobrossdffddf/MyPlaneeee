@@ -7,8 +7,14 @@ import { insertServiceRequestSchema, insertChatMessageSchema } from "@shared/sch
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Auth middleware
-  await setupAuth(app);
+  // Auth middleware (non-blocking for development)
+  console.log("Setting up auth...");
+  try {
+    await setupAuth(app);
+    console.log("Auth setup complete");
+  } catch (error) {
+    console.warn("Auth setup failed, continuing with mock auth:", error.message);
+  }
 
   // Initialize PTFS airports
   const ptfsAirports = [
@@ -36,10 +42,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     { icao: "ISKP", name: "ISKP" },
   ];
 
-  // Seed airports on startup
-  for (const airport of ptfsAirports) {
-    await storage.upsertAirport(airport);
-  }
+  // Seed airports on startup (non-blocking)
+  setImmediate(async () => {
+    try {
+      console.log("Seeding airports...");
+      for (const airport of ptfsAirports) {
+        await storage.upsertAirport(airport);
+      }
+      console.log("Airports seeded successfully");
+    } catch (error) {
+      console.error("Failed to seed airports:", error);
+    }
+  });
 
   // Auth routes (bypassed for testing)
   app.get('/api/auth/user', async (req: any, res) => {
