@@ -101,7 +101,8 @@ export default function NewRequestDialog({
   });
 
   const onSubmit = (data: FormData) => {
-    console.log("Submitting request data:", data);
+    console.log("FORM SUBMIT CALLED!", data);
+    console.log("Form errors:", form.formState.errors);
     createRequestMutation.mutate(data);
   };
 
@@ -240,10 +241,29 @@ export default function NewRequestDialog({
                 Cancel
               </Button>
               <Button 
+                type="button" 
+                onClick={() => {
+                  console.log("DIRECT BUTTON CLICKED!");
+                  createRequestMutation.mutate({
+                    airportIcao: "IBAR",
+                    serviceType: "fuel",
+                    gate: "A1",
+                    flightNumber: "TEST999",
+                    aircraft: "",
+                    description: "Direct button test",
+                    pilotId: ""
+                  });
+                }}
+                className="bg-red-500 hover:bg-red-600 text-white mr-2"
+              >
+                TEST DIRECT
+              </Button>
+              <Button 
                 type="submit" 
                 disabled={createRequestMutation.isPending}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground"
                 data-testid="button-submit-request"
+                onClick={() => console.log("SUBMIT BUTTON CLICKED!")}
               >
                 {createRequestMutation.isPending ? "Creating..." : "Create Request"}
               </Button>
