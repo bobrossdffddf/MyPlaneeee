@@ -42,7 +42,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     { icao: "ISKP", name: "ISKP" },
   ];
 
-  // Seed airports on startup (non-blocking)
+  // Seed airports and mock user on startup (non-blocking)
   setImmediate(async () => {
     try {
       console.log("Seeding airports...");
@@ -50,8 +50,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         await storage.upsertAirport(airport);
       }
       console.log("Airports seeded successfully");
+      
+      // Create mock user for testing
+      console.log("Creating mock user...");
+      await storage.upsertUser({
+        id: "test-user-123",
+        email: "test@example.com",
+        firstName: "Test",
+        lastName: "User",
+        profileImageUrl: null,
+      });
+      console.log("Mock user created successfully");
     } catch (error) {
-      console.error("Failed to seed airports:", error);
+      console.error("Failed to seed data:", error);
     }
   });
 
