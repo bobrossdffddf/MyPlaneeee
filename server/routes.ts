@@ -159,6 +159,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/requests/pilot/:pilotId", async (req: any, res) => {
+    try {
+      const { pilotId } = req.params;
+      const requests = await storage.getServiceRequestsByPilot(pilotId);
+      res.json(requests);
+    } catch (error) {
+      console.error("Error fetching pilot requests:", error);
+      res.status(500).json({ message: "Failed to fetch pilot requests" });
+    }
+  });
+
   app.post("/api/requests/:id/claim", isAuthenticated, async (req: any, res) => {
     try {
       const { id } = req.params;
