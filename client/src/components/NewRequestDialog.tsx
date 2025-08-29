@@ -66,7 +66,8 @@ export default function NewRequestDialog({
   const createRequestMutation = useMutation({
     mutationFn: async (data: FormData) => {
       console.log("Making API request with data:", data);
-      return apiRequest("POST", "/api/requests", data);
+      const response = await apiRequest("POST", "/api/requests", data);
+      return await response.json();
     },
     onSuccess: (result) => {
       console.log("Request created successfully:", result);
