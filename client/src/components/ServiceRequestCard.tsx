@@ -26,6 +26,18 @@ const serviceIcons: Record<string, string> = {
   ground_power: "🔌",
   cleaning: "🧽",
   lavatory: "🚽",
+  de_icing: "❄️",
+  cargo_handling: "📦",
+  passenger_boarding: "👥",
+  aircraft_parking: "🅿️",
+  towing: "🔗",
+  air_conditioning: "🌡️",
+  water_service: "💧",
+  waste_removal: "🗑️",
+  security_check: "🔒",
+  customs_clearance: "📋",
+  medical_assistance: "🏥",
+  special_assistance: "♿",
 };
 
 const statusColors: Record<string, string> = {
@@ -92,8 +104,8 @@ export default function ServiceRequestCard({
 
   return (
     <Card 
-      className={`transition-all duration-200 hover:-translate-y-1 cursor-pointer ${
-        isActive ? "border-2 border-primary/50" : ""
+      className={`transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-pointer border-2 ${
+        isActive ? "border-primary/50 shadow-md" : "border-transparent hover:border-primary/20"
       }`}
       onClick={() => canChat && onSelect(request.id)}
     >
@@ -198,6 +210,18 @@ function getServiceColor(serviceType: string): string {
     ground_power: "bg-yellow-500",
     cleaning: "bg-teal-500",
     lavatory: "bg-pink-500",
+    de_icing: "bg-cyan-500",
+    cargo_handling: "bg-amber-500",
+    passenger_boarding: "bg-emerald-500",
+    aircraft_parking: "bg-slate-500",
+    towing: "bg-orange-500",
+    air_conditioning: "bg-sky-500",
+    water_service: "bg-blue-400",
+    waste_removal: "bg-gray-600",
+    security_check: "bg-red-600",
+    customs_clearance: "bg-blue-600",
+    medical_assistance: "bg-red-400",
+    special_assistance: "bg-purple-600",
   };
   return colors[serviceType] || "bg-gray-500";
 }

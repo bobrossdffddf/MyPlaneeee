@@ -43,7 +43,19 @@ export const serviceTypeEnum = pgEnum("service_type", [
   "pushback",
   "ground_power",
   "cleaning",
-  "lavatory"
+  "lavatory",
+  "de_icing",
+  "cargo_handling",
+  "passenger_boarding",
+  "aircraft_parking",
+  "towing",
+  "air_conditioning",
+  "water_service",
+  "waste_removal",
+  "security_check",
+  "customs_clearance",
+  "medical_assistance",
+  "special_assistance"
 ]);
 
 export const requestStatusEnum = pgEnum("request_status", [

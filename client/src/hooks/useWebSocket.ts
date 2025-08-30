@@ -44,9 +44,10 @@ export function useWebSocket({ onMessage, reconnect = true }: UseWebSocketOption
       console.log("WebSocket disconnected");
       
       if (reconnect) {
+        // Only reconnect if not manually closed
         reconnectTimeoutRef.current = setTimeout(() => {
           connect();
-        }, 3000);
+        }, 5000); // Longer delay to prevent spam
       }
     };
 

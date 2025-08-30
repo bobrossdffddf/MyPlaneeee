@@ -41,6 +41,18 @@ const serviceTypes = [
   { value: "ground_power", label: "Ground Power", icon: "🔌" },
   { value: "cleaning", label: "Aircraft Cleaning", icon: "🧽" },
   { value: "lavatory", label: "Lavatory Service", icon: "🚽" },
+  { value: "de_icing", label: "De-icing", icon: "❄️" },
+  { value: "cargo_handling", label: "Cargo Handling", icon: "📦" },
+  { value: "passenger_boarding", label: "Passenger Boarding", icon: "👥" },
+  { value: "aircraft_parking", label: "Aircraft Parking", icon: "🅿️" },
+  { value: "towing", label: "Aircraft Towing", icon: "🔗" },
+  { value: "air_conditioning", label: "Air Conditioning", icon: "🌡️" },
+  { value: "water_service", label: "Water Service", icon: "💧" },
+  { value: "waste_removal", label: "Waste Removal", icon: "🗑️" },
+  { value: "security_check", label: "Security Check", icon: "🔒" },
+  { value: "customs_clearance", label: "Customs Clearance", icon: "📋" },
+  { value: "medical_assistance", label: "Medical Assistance", icon: "🏥" },
+  { value: "special_assistance", label: "Special Assistance", icon: "♿" },
 ];
 
 export default function NewRequestDialog({
@@ -108,7 +120,7 @@ export default function NewRequestDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>New Service Request</DialogTitle>
         </DialogHeader>
@@ -151,7 +163,7 @@ export default function NewRequestDialog({
                       <SelectTrigger data-testid="select-service-type">
                         <SelectValue placeholder="Select service type" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="max-h-[200px] overflow-y-auto">
                         {serviceTypes.map((service) => (
                           <SelectItem key={service.value} value={service.value}>
                             <span className="flex items-center space-x-2">

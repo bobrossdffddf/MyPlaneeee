@@ -1,5 +1,6 @@
 import * as client from "openid-client";
 import { Strategy, type VerifyFunction } from "openid-client/passport";
+import DiscordStrategy from "passport-discord";
 
 import passport from "passport";
 import session from "express-session";
@@ -98,6 +99,43 @@ export async function setupAuth(app: Express) {
     passport.use(strategy);
   }
 
+  // Discord authentication setup
+  if (process.env.DISCORD_CLIENT_ID && process.env.DISCORD_CLIENT_SECRET) {
+    passport.use(new DiscordStrategy({
+      clientID: process.env.DISCORD_CLIENT_ID,
+      clientSecret: process.env.DISCORD_CLIENT_SECRET,
+      callbackURL: `https://${process.env.REPLIT_DOMAINS?.split(',')[0]}/api/discord/callback`,
+      scope: ['identify', 'email']
+    }, async (accessToken: string, refreshToken: string, profile: any, done: any) => {
+      try {
+        const user = {
+          claims: {
+            sub: profile.id,
+            email: profile.email,
+            first_name: profile.username,
+            last_name: profile.discriminator || '',
+            profile_image_url: profile.avatar ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png` : null
+          },
+          access_token: accessToken,
+          refresh_token: refreshToken,
+          expires_at: Math.floor(Date.now() / 1000) + 604800 // 1 week
+        };
+        
+        await storage.upsertUser({
+          id: profile.id,
+          email: profile.email,
+          firstName: profile.username,
+          lastName: profile.discriminator || '',
+          profileImageUrl: user.claims.profile_image_url,
+        });
+        
+        return done(null, user);
+      } catch (error) {
+        return done(error, null);
+      }
+    }));
+  }
+
   passport.serializeUser((user: Express.User, cb) => cb(null, user));
   passport.deserializeUser((user: Express.User, cb) => cb(null, user));
 
@@ -114,6 +152,16 @@ export async function setupAuth(app: Express) {
       failureRedirect: "/api/login",
     })(req, res, next);
   });
+
+  // Discord auth routes
+  app.get('/api/discord/login', passport.authenticate('discord'));
+  
+  app.get('/api/discord/callback', 
+    passport.authenticate('discord', { failureRedirect: '/login' }),
+    (req, res) => {
+      res.redirect('/');
+    }
+  );
 
   app.get("/api/logout", (req, res) => {
     req.logout(() => {

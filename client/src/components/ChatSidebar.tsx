@@ -27,6 +27,18 @@ const serviceIcons: Record<string, string> = {
   ground_power: "🔌",
   cleaning: "🧽",
   lavatory: "🚽",
+  de_icing: "❄️",
+  cargo_handling: "📦",
+  passenger_boarding: "👥",
+  aircraft_parking: "🅿️",
+  towing: "🔗",
+  air_conditioning: "🌡️",
+  water_service: "💧",
+  waste_removal: "🗑️",
+  security_check: "🔒",
+  customs_clearance: "📋",
+  medical_assistance: "🏥",
+  special_assistance: "♿",
 };
 
 export default function ChatSidebar({ requestId, onClose }: ChatSidebarProps) {
@@ -104,7 +116,7 @@ export default function ChatSidebar({ requestId, onClose }: ChatSidebarProps) {
   }
 
   return (
-    <div className="w-80 border-l border-border bg-card flex flex-col">
+    <div className="w-80 border-l border-border bg-card flex flex-col animate-in slide-in-from-right duration-300">
       {/* Chat Header */}
       <div className="p-4 border-b border-border">
         <div className="flex items-center justify-between">
@@ -152,7 +164,9 @@ export default function ChatSidebar({ requestId, onClose }: ChatSidebarProps) {
                 key={message.id} 
                 className={`flex items-start space-x-2 ${isOwnMessage ? 'flex-row-reverse' : ''}`}
               >
-                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-xs font-semibold text-primary-foreground">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-200 ${
+                  isOwnMessage ? "bg-primary text-primary-foreground" : "bg-muted-foreground text-muted"
+                }`}>
                   {isOwnMessage ? "You" : "GC"}
                 </div>
                 <div className="flex-1">

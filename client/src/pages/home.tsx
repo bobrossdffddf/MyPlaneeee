@@ -21,23 +21,23 @@ export default function Home() {
       <nav className="bg-card border-b border-border px-6 py-4 flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-lg">ATC</span>
+            <Plane className="h-6 w-6 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="text-xl font-semibold text-foreground">PTFS ATC24</h1>
-            <p className="text-sm text-muted-foreground">Ground Crew Coordination</p>
+            <h1 className="text-xl font-semibold text-foreground">PTFS Ground Crew</h1>
+            <p className="text-sm text-muted-foreground">Professional Ground Services</p>
           </div>
         </div>
         
         {/* Role Switcher */}
         <div className="flex items-center space-x-3">
-          <span className="text-sm text-muted-foreground">Role:</span>
-          <div className="flex bg-muted rounded-lg p-1">
+          <span className="text-sm text-muted-foreground">View as:</span>
+          <div className="flex bg-muted rounded-lg p-1 transition-all duration-200">
             <Button
               variant={userRole === "pilot" ? "default" : "ghost"}
               size="sm"
               onClick={() => setUserRole("pilot")}
-              className={userRole === "pilot" ? "bg-primary text-primary-foreground hover:bg-primary/90" : "text-muted-foreground hover:text-foreground"}
+              className={`transition-all duration-200 ${userRole === "pilot" ? "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-background/50"}`}
               data-testid="button-role-pilot"
             >
               <Plane className="h-4 w-4 mr-2" />
@@ -47,7 +47,7 @@ export default function Home() {
               variant={userRole === "crew" ? "default" : "ghost"}
               size="sm"
               onClick={() => setUserRole("crew")}
-              className={userRole === "crew" ? "bg-primary text-primary-foreground hover:bg-primary/90" : "text-muted-foreground hover:text-foreground"}
+              className={`transition-all duration-200 ${userRole === "crew" ? "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-background/50"}`}
               data-testid="button-role-crew"
             >
               <Users className="h-4 w-4 mr-2" />
@@ -68,12 +68,14 @@ export default function Home() {
 
       <div className="flex h-[calc(100vh-80px)]">
         {/* Main Content Area */}
-        <div className="flex-1 flex flex-col">
-          {userRole === "pilot" ? (
-            <PilotDashboard onRequestSelect={setSelectedRequestId} />
-          ) : (
-            <GroundCrewDashboard onRequestSelect={setSelectedRequestId} />
-          )}
+        <div className="flex-1 flex flex-col transition-all duration-300">
+          <div className={`transition-all duration-500 ${userRole === "pilot" ? "opacity-100" : "opacity-100"}`}>
+            {userRole === "pilot" ? (
+              <PilotDashboard onRequestSelect={setSelectedRequestId} />
+            ) : (
+              <GroundCrewDashboard onRequestSelect={setSelectedRequestId} />
+            )}
+          </div>
         </div>
 
         {/* Chat Sidebar */}

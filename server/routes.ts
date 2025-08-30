@@ -40,6 +40,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     { icao: "IUFO", name: "IUFO" },
     { icao: "ISAU", name: "ISAU" },
     { icao: "ISKP", name: "ISKP" },
+    { icao: "IORE", name: "IORE" },
+    { icao: "ICYP", name: "ICYP" }
   ];
 
   // Seed airports on startup (non-blocking)

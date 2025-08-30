@@ -1,0 +1,41 @@
+Fix all issues Some issues are UI and animation issues selecting issues Authentication issues discord authentication does not work for some reason make it so if I select ground crew it sends the ground crew channel remove atc roll just set up better everything add more features not like new features if you know what I mean like make everything better and prove everything handling Everything add more services types and make everything just better all around and fix the ui make it look a lot more professional and better just use the remaining everything to do that make sure that the discord authentication works and it has like their user name for the request and everything this needs to be safe as well if there's any cookies that are being requested make sure it like ask them if it wants cookies and make sure if they say no no cookies get applied make everything more professional and more realistic as well like an actual ground crew and what they would actually request add some RP service types like gpu APU connection catering full service make sure to add full service and like a bunch of different stuff like that.  Make sure everything works and that the ui looks super professional go through for bugs multiple times line for line if you can the secrets I'm gonna put down below Make sure everything works I definitely want the chat to be multi computer which means one user can chat to another user no issues just through the server really easily it's going to be hosted on railway or render so just make sure it's kind of lightweight and that as little stuff as possible is running on the server and most of it is running on the client make sure everything works well in like an actual ground control tablet or like what a pilot would use fix the UI make it super cool super professional you know make like an actual real one do as much as you can to squash bugs and all that stuff.  Add a bunch of new features that would go along with this app ID and stuff but just make sure they're easily removable and not too integrated just in case make sure everything works well before you add it and don't just add something that is like an empty button that you're gonna add later make sure you add everything to the fullest extent no matter how much time it takes maybe add like different like columns like one column is like an unclaimed for for ground crew only 1 column is unclaimed 1 column is in service 1 column is like completed and completed you know delete after however many minutes I also want the airport list to be top down so this is what it's gonna look like IRFD
+ IORE
+ IZOL
+ ICYP
+ IPPH
+ IGRV
+ ISAU
+ IBTH
+ ISKP
+IGAR
+ IBLT
+ IMLR
+ ITRC
+ IDCS
+ ITKO
+ IJAF
+ ISCM
+ IBAR
+ IHEN
+ ILAR
+ IIAB
+ IPAP
+ ILKL
+ IGRV
+ IBTH
+ IUFO
+ ISKP
+
+
+DATABASE_URL="postgresql://neondb_owner:npg_5VdkmpCZX7Tx@ep-tiny-bread-a2wu0v6c.eu-central-1.aws.neon.tech/neondb?sslmode=require"
+PGDATABASE="neondb"
+PGHOST="ep-tiny-bread-a2wu0v6c.eu-central-1.aws.neon.tech"
+PGPORT="5432"
+PGUSER="neondb_owner"
+PGPASSWORD="npg_5VdkmpCZX7Tx"
+DISCORD_CLIENT_ID="1411133132505219082"
+DISCORD_CLIENT_SECRET="FH6dPw_m4vKJUnJ2HQ_drIcxdBB9tH_M"
+
+
+
+

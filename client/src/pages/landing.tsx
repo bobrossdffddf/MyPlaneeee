@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plane } from "lucide-react";
+import { Plane, Users } from "lucide-react";
 
 export default function Landing() {
   return (
@@ -12,19 +12,31 @@ export default function Landing() {
           </div>
           
           <h1 className="text-2xl font-bold text-foreground mb-2">
-            PTFS ATC24
+            PTFS Ground Crew
           </h1>
           <p className="text-muted-foreground mb-8">
-            Ground Crew Coordination System
+            Professional Ground Services Coordination
           </p>
           
-          <Button 
-            onClick={() => window.location.href = '/api/login'}
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-            data-testid="button-login"
-          >
-            Sign In to Continue
-          </Button>
+          <div className="space-y-3">
+            <Button 
+              onClick={() => window.location.href = '/api/login'}
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+              data-testid="button-login"
+            >
+              <Plane className="mr-2 h-4 w-4" />
+              Sign In with Replit
+            </Button>
+            
+            <Button 
+              onClick={() => window.location.href = '/api/discord/login'}
+              className="w-full bg-[#5865f2] hover:bg-[#5865f2]/90 text-white"
+              data-testid="button-discord-login"
+            >
+              <Users className="mr-2 h-4 w-4" />
+              Sign In with Discord
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>

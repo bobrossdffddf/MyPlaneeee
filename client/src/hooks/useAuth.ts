@@ -1,10 +1,14 @@
-// No authentication - just return a test user so app works
-const testUser = {
+import type { User } from "@shared/schema";
+
+// Simple test user for development
+const testUser: User = {
   id: "temp-user-123",
   email: "test@example.com",
   firstName: "Test",
   lastName: "User",
   profileImageUrl: null,
+  createdAt: new Date(),
+  updatedAt: new Date(),
 };
 
 export function useAuth() {
@@ -12,5 +16,6 @@ export function useAuth() {
     user: testUser,
     isLoading: false,
     isAuthenticated: true,
+    authError: null,
   };
 }

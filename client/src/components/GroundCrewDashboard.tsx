@@ -92,24 +92,38 @@ export default function GroundCrewDashboard({ onRequestSelect }: GroundCrewDashb
       {/* Header and Controls */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-bold text-foreground">Available Requests</h2>
+          <h2 className="text-2xl font-bold text-foreground">Ground Services Hub</h2>
           <div className="flex items-center space-x-3">
             <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              <span className="text-sm text-muted-foreground">Online</span>
+              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+              <span className="text-sm text-muted-foreground">Active Ground Crew</span>
             </div>
             <Select value={serviceFilter} onValueChange={setServiceFilter}>
-              <SelectTrigger className="w-40" data-testid="select-service-filter">
+              <SelectTrigger className="w-48" data-testid="select-service-filter">
                 <SelectValue placeholder="All Services" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Services</SelectItem>
-                <SelectItem value="fuel">Fuel Only</SelectItem>
-                <SelectItem value="catering">Catering Only</SelectItem>
-                <SelectItem value="baggage">Baggage Only</SelectItem>
-                <SelectItem value="maintenance">Maintenance Only</SelectItem>
-                <SelectItem value="pushback">Pushback Only</SelectItem>
-                <SelectItem value="ground_power">Ground Power Only</SelectItem>
+              <SelectContent className="max-h-[300px] overflow-y-auto">
+                <SelectItem value="all">🔄 All Services</SelectItem>
+                <SelectItem value="fuel">⛽ Fuel Service</SelectItem>
+                <SelectItem value="catering">🍽️ Catering</SelectItem>
+                <SelectItem value="baggage">🧳 Baggage Handling</SelectItem>
+                <SelectItem value="maintenance">🔧 Maintenance</SelectItem>
+                <SelectItem value="pushback">🚛 Pushback</SelectItem>
+                <SelectItem value="ground_power">🔌 Ground Power</SelectItem>
+                <SelectItem value="cleaning">🧽 Cleaning</SelectItem>
+                <SelectItem value="lavatory">🚽 Lavatory Service</SelectItem>
+                <SelectItem value="de_icing">❄️ De-icing</SelectItem>
+                <SelectItem value="cargo_handling">📦 Cargo Handling</SelectItem>
+                <SelectItem value="passenger_boarding">👥 Passenger Boarding</SelectItem>
+                <SelectItem value="aircraft_parking">🅿️ Aircraft Parking</SelectItem>
+                <SelectItem value="towing">🔗 Aircraft Towing</SelectItem>
+                <SelectItem value="air_conditioning">🌡️ Air Conditioning</SelectItem>
+                <SelectItem value="water_service">💧 Water Service</SelectItem>
+                <SelectItem value="waste_removal">🗑️ Waste Removal</SelectItem>
+                <SelectItem value="security_check">🔒 Security Check</SelectItem>
+                <SelectItem value="customs_clearance">📋 Customs Clearance</SelectItem>
+                <SelectItem value="medical_assistance">🏥 Medical Assistance</SelectItem>
+                <SelectItem value="special_assistance">♿ Special Assistance</SelectItem>
               </SelectContent>
             </Select>
           </div>
