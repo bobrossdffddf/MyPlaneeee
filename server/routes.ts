@@ -13,7 +13,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     await setupAuth(app);
     console.log("Auth setup complete");
   } catch (error) {
-    console.warn("Auth setup failed, continuing with mock auth:", error.message);
+    console.warn("Auth setup failed, continuing with mock auth:", error instanceof Error ? error.message : String(error));
   }
 
   // Initialize PTFS airports
