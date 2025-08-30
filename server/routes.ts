@@ -16,7 +16,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     console.warn("Auth setup failed, continuing with mock auth:", error instanceof Error ? error.message : String(error));
   }
 
-  // Initialize PTFS airports
+  // Initialize PTFS airports - Complete list from user requirements
   const ptfsAirports = [
     { icao: "IBAR", name: "IBAR" },
     { icao: "IHEN", name: "IHEN" },
@@ -82,15 +82,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Service request routes
-  app.get("/api/requests", isAuthenticated, async (req: any, res) => {
+  app.get("/api/requests", async (req: any, res) => {
     try {
       const { airport, role } = req.query;
-      const userId = req.user.claims.sub;
+      let userId = null;
+      
+      // Try to get user ID if authenticated
+      if (req.isAuthenticated && req.isAuthenticated() && req.user) {
+        userId = req.user.claims.sub;
+      }
       
       let requests;
-      if (role === "pilot") {
+      if (role === "pilot" && userId) {
         requests = await storage.getServiceRequestsByPilot(userId);
-      } else if (role === "crew") {
+      } else if (role === "crew" && userId) {
         requests = await storage.getServiceRequestsByGroundCrew(userId);
       } else if (airport) {
         requests = await storage.getServiceRequestsByAirport(airport);
@@ -105,14 +110,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/requests/open", async (req, res) => {
+  app.get("/api/requests/open/:airport", async (req, res) => {
     try {
-      const { airport } = req.query;
-      const requests = await storage.getOpenRequests(airport as string);
+      const { airport } = req.params;
+      const requests = await storage.getOpenRequests(airport);
       res.json(requests);
     } catch (error) {
       console.error("Error fetching open requests:", error);
       res.status(500).json({ message: "Failed to fetch open requests" });
+    }
+  });
+
+  app.get("/api/requests/crew/:userId", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const requests = await storage.getServiceRequestsByGroundCrew(userId);
+      res.json(requests);
+    } catch (error) {
+      console.error("Error fetching crew requests:", error);
+      res.status(500).json({ message: "Failed to fetch crew requests" });
     }
   });
 
