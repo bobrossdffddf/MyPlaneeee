@@ -2,17 +2,36 @@ import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import PilotDashboard from "@/components/PilotDashboard";
 import GroundCrewDashboard from "@/components/GroundCrewDashboard";
+import ColumnBasedDashboard from "@/components/ColumnBasedDashboard";
 import ChatSidebar from "@/components/ChatSidebar";
+import CookieConsent from "@/components/CookieConsent";
+import LoginScreen from "@/components/LoginScreen";
 import { Button } from "@/components/ui/button";
 import { Plane, Users } from "lucide-react";
 
 export default function Home() {
-  const { user } = useAuth();
+  const { user, isLoading, isAuthenticated } = useAuth();
   const [userRole, setUserRole] = useState<"pilot" | "crew">("pilot");
   const [selectedRequestId, setSelectedRequestId] = useState<string | null>(null);
 
-  if (!user) {
-    return null;
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <p className="text-slate-300 text-lg">Loading PTFS Ground Crew...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated || !user) {
+    return (
+      <>
+        <LoginScreen />
+        <CookieConsent />
+      </>
+    );
   }
 
   return (
@@ -58,7 +77,15 @@ export default function Home() {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => window.location.href = '/api/logout'}
+            onClick={async () => {
+              try {
+                await fetch('/api/logout', { method: 'POST', credentials: 'include' });
+                window.location.reload();
+              } catch (error) {
+                console.error('Logout failed:', error);
+                window.location.href = '/';
+              }
+            }}
             data-testid="button-logout"
           >
             Logout
@@ -73,7 +100,7 @@ export default function Home() {
             {userRole === "pilot" ? (
               <PilotDashboard onRequestSelect={setSelectedRequestId} />
             ) : (
-              <GroundCrewDashboard onRequestSelect={setSelectedRequestId} />
+              <ColumnBasedDashboard onRequestSelect={setSelectedRequestId} />
             )}
           </div>
         </div>

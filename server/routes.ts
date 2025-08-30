@@ -2,46 +2,46 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { WebSocketServer, WebSocket } from "ws";
 import { storage } from "./storage";
-import { setupAuth, isAuthenticated } from "./replitAuth";
+import { setupDiscordAuth, isAuthenticated } from "./discordAuth";
 import { insertServiceRequestSchema, insertChatMessageSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Auth middleware (non-blocking for development)
-  console.log("Setting up auth...");
+  // Discord Authentication setup
+  console.log("Setting up Discord authentication...");
   try {
-    await setupAuth(app);
-    console.log("Auth setup complete");
+    setupDiscordAuth(app);
+    console.log("Discord auth setup complete");
   } catch (error) {
-    console.warn("Auth setup failed, continuing with mock auth:", error instanceof Error ? error.message : String(error));
+    console.error("Discord auth setup failed:", error instanceof Error ? error.message : String(error));
   }
 
-  // Initialize PTFS airports - Complete list from user requirements
+  // PTFS airports in exact top-down order as requested by user
   const ptfsAirports = [
+    { icao: "IRFD", name: "IRFD" },
+    { icao: "IORE", name: "IORE" },
+    { icao: "IZOL", name: "IZOL" },
+    { icao: "ICYP", name: "ICYP" },
+    { icao: "IPPH", name: "IPPH" },
+    { icao: "IGRV", name: "IGRV" },
+    { icao: "ISAU", name: "ISAU" },
+    { icao: "IBTH", name: "IBTH" },
+    { icao: "ISKP", name: "ISKP" },
+    { icao: "IGAR", name: "IGAR" },
+    { icao: "IBLT", name: "IBLT" },
+    { icao: "IMLR", name: "IMLR" },
+    { icao: "ITRC", name: "ITRC" },
+    { icao: "IDCS", name: "IDCS" },
+    { icao: "ITKO", name: "ITKO" },
+    { icao: "IJAF", name: "IJAF" },
+    { icao: "ISCM", name: "ISCM" },
     { icao: "IBAR", name: "IBAR" },
     { icao: "IHEN", name: "IHEN" },
     { icao: "ILAR", name: "ILAR" },
     { icao: "IIAB", name: "IIAB" },
     { icao: "IPAP", name: "IPAP" },
-    { icao: "IGRV", name: "IGRV" },
-    { icao: "IJAF", name: "IJAF" },
-    { icao: "IZOL", name: "IZOL" },
-    { icao: "ISCM", name: "ISCM" },
-    { icao: "IDCS", name: "IDCS" },
-    { icao: "ITKO", name: "ITKO" },
     { icao: "ILKL", name: "ILKL" },
-    { icao: "IPPH", name: "IPPH" },
-    { icao: "IGAR", name: "IGAR" },
-    { icao: "IBLT", name: "IBLT" },
-    { icao: "IRFD", name: "IRFD" },
-    { icao: "IMLR", name: "IMLR" },
-    { icao: "ITRC", name: "ITRC" },
-    { icao: "IBTH", name: "IBTH" },
-    { icao: "IUFO", name: "IUFO" },
-    { icao: "ISAU", name: "ISAU" },
-    { icao: "ISKP", name: "ISKP" },
-    { icao: "IORE", name: "IORE" },
-    { icao: "ICYP", name: "ICYP" }
+    { icao: "IUFO", name: "IUFO" }
   ];
 
   // Seed airports on startup (non-blocking)
@@ -57,17 +57,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Auth routes
-  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
-    try {
-      const userId = req.user.claims.sub;
-      const user = await storage.getUser(userId);
-      res.json(user);
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
-    }
-  });
 
   // Airport routes with fallback data (no auth required)
   app.get("/api/airports", async (req, res) => {

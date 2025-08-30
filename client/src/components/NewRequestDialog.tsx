@@ -33,56 +33,69 @@ const formSchema = insertServiceRequestSchema.extend({
 type FormData = z.infer<typeof formSchema>;
 
 const serviceTypes = [
+  // Essential Ground Services
   { value: "fuel", label: "Fuel Service", icon: "⛽", category: "Fueling" },
+  { value: "fuel_full_service", label: "Full Service Fueling", icon: "🚛", category: "Fueling" },
+  { value: "gpu_connection", label: "GPU Connection", icon: "🔌", category: "Power" },
+  { value: "apu_connection", label: "APU Connection", icon: "⚡", category: "Power" },
+  { value: "air_conditioning_ground", label: "Ground A/C", icon: "❄️", category: "Climate" },
+  
+  // Baggage & Cargo
   { value: "baggage_loading", label: "Baggage Loading", icon: "🧳", category: "Baggage" },
   { value: "baggage_unloading", label: "Baggage Unloading", icon: "📤", category: "Baggage" },
-  { value: "catering", label: "Catering Service", icon: "🍽️", category: "Catering" },
-  { value: "maintenance", label: "Aircraft Maintenance", icon: "🔧", category: "Maintenance" },
-  { value: "cleaning_cabin", label: "Cabin Cleaning", icon: "🧽", category: "Cleaning" },
-  { value: "cleaning_exterior", label: "Exterior Cleaning", icon: "✨", category: "Cleaning" },
-  { value: "pushback", label: "Pushback Service", icon: "🚛", category: "Ground Operations" },
-  { value: "ground_power", label: "Ground Power", icon: "🔌", category: "Power & Utilities" },
-  { value: "security_check", label: "Security Inspection", icon: "🔒", category: "Security" },
   { value: "cargo_loading", label: "Cargo Loading", icon: "📦", category: "Cargo" },
   { value: "cargo_unloading", label: "Cargo Unloading", icon: "📤", category: "Cargo" },
-  { value: "passenger_boarding", label: "Passenger Boarding", icon: "👥", category: "Passenger Services" },
-  { value: "passenger_deboarding", label: "Passenger Deboarding", icon: "👤", category: "Passenger Services" },
-  { value: "de_icing", label: "De-icing", icon: "❄️", category: "Weather Services" },
-  { value: "anti_icing", label: "Anti-icing", icon: "🧊", category: "Weather Services" },
-  { value: "lavatory_service", label: "Lavatory Service", icon: "🚽", category: "Utilities" },
-  { value: "water_service", label: "Water Service", icon: "💧", category: "Utilities" },
-  { value: "stairs_positioning", label: "Stairs Positioning", icon: "🪜", category: "Ground Equipment" },
-  { value: "stairs_removal", label: "Stairs Removal", icon: "📤", category: "Ground Equipment" },
-  { value: "jetbridge_connection", label: "Jetbridge Connection", icon: "🌉", category: "Ground Equipment" },
-  { value: "jetbridge_disconnection", label: "Jetbridge Disconnection", icon: "🔌", category: "Ground Equipment" },
-  { value: "marshalling", label: "Aircraft Marshalling", icon: "🚦", category: "Ground Operations" },
-  { value: "customs_inspection", label: "Customs Inspection", icon: "📋", category: "Inspections" },
-  { value: "immigration_check", label: "Immigration Check", icon: "🛂", category: "Inspections" },
-  { value: "ground_transport", label: "Ground Transport", icon: "🚌", category: "Transportation" },
-  { value: "wheelchair_assistance", label: "Wheelchair Assistance", icon: "♿", category: "Special Assistance" },
-  { value: "special_cargo", label: "Special Cargo Handling", icon: "📦", category: "Cargo" },
-  { value: "dangerous_goods", label: "Dangerous Goods Handling", icon: "⚠️", category: "Cargo" },
-  { value: "aircraft_towing", label: "Aircraft Towing", icon: "🔗", category: "Ground Operations" },
-  { value: "engine_start", label: "Engine Start Assistance", icon: "🚀", category: "Technical Services" },
+  { value: "special_cargo_handling", label: "Special Cargo", icon: "📦", category: "Cargo" },
+  { value: "dangerous_goods_handling", label: "Dangerous Goods", icon: "⚠️", category: "Cargo" },
+  
+  // Catering Services
+  { value: "catering_full_service", label: "Full Service Catering", icon: "🍽️", category: "Catering" },
+  { value: "catering_beverage_only", label: "Beverage Service", icon: "☕", category: "Catering" },
+  { value: "catering_meal_service", label: "Meal Service", icon: "🍲", category: "Catering" },
+  
+  // Maintenance & Inspections
+  { value: "maintenance_line", label: "Line Maintenance", icon: "🔧", category: "Maintenance" },
+  { value: "maintenance_heavy", label: "Heavy Maintenance", icon: "🔨", category: "Maintenance" },
+  { value: "maintenance_inspection", label: "Maintenance Inspection", icon: "🔍", category: "Maintenance" },
   { value: "pre_flight_inspection", label: "Pre-flight Inspection", icon: "✅", category: "Inspections" },
   { value: "post_flight_inspection", label: "Post-flight Inspection", icon: "📋", category: "Inspections" },
-  { value: "tire_pressure_check", label: "Tire Pressure Check", icon: "🏁", category: "Technical Services" },
-  { value: "oil_service", label: "Oil Service", icon: "🛢️", category: "Technical Services" },
-  { value: "hydraulic_service", label: "Hydraulic Service", icon: "🔧", category: "Technical Services" },
-  { value: "nitrogen_service", label: "Nitrogen Service", icon: "💨", category: "Technical Services" },
-  { value: "oxygen_service", label: "Oxygen Service", icon: "🫁", category: "Technical Services" },
-  { value: "air_conditioning", label: "Air Conditioning", icon: "🌡️", category: "Climate Control" },
-  { value: "cabin_service", label: "Cabin Service", icon: "🛏️", category: "Cabin Services" },
-  { value: "galley_service", label: "Galley Service", icon: "🍴", category: "Cabin Services" },
-  { value: "emergency_equipment_check", label: "Emergency Equipment Check", icon: "🚨", category: "Safety" },
-  { value: "cargo_documentation", label: "Cargo Documentation", icon: "📄", category: "Documentation" },
-  { value: "weight_balance", label: "Weight & Balance", icon: "⚖️", category: "Technical Services" },
-  { value: "flight_planning_support", label: "Flight Planning Support", icon: "🗺️", category: "Flight Operations" },
-  { value: "meteorological_briefing", label: "Weather Briefing", icon: "🌤️", category: "Flight Operations" },
-  { value: "crew_transport", label: "Crew Transport", icon: "👨‍✈️", category: "Transportation" },
-  { value: "hotel_shuttle", label: "Hotel Shuttle", icon: "🏨", category: "Transportation" },
-  { value: "aircraft_parking", label: "Aircraft Parking", icon: "🅿️", category: "Ground Operations" },
-  { value: "hangar_service", label: "Hangar Service", icon: "🏢", category: "Facilities" },
+  { value: "walk_around_inspection", label: "Walk-around Check", icon: "👀", category: "Inspections" },
+  
+  // Cleaning Services
+  { value: "cleaning_cabin_full", label: "Full Cabin Cleaning", icon: "🧽", category: "Cleaning" },
+  { value: "cleaning_cabin_light", label: "Light Cabin Cleaning", icon: "✨", category: "Cleaning" },
+  { value: "cleaning_exterior", label: "Exterior Wash", icon: "💦", category: "Cleaning" },
+  
+  // Ground Operations
+  { value: "pushback", label: "Pushback", icon: "🚛", category: "Ground Ops" },
+  { value: "pushback_with_start", label: "Pushback with Start", icon: "🚀", category: "Ground Ops" },
+  { value: "towing_to_gate", label: "Towing to Gate", icon: "🔗", category: "Ground Ops" },
+  { value: "towing_to_maintenance", label: "Towing to Maintenance", icon: "🔗", category: "Ground Ops" },
+  { value: "marshalling_arrival", label: "Arrival Marshalling", icon: "👋", category: "Ground Ops" },
+  { value: "marshalling_departure", label: "Departure Marshalling", icon: "👋", category: "Ground Ops" },
+  { value: "aircraft_parking_overnight", label: "Overnight Parking", icon: "🅿️", category: "Ground Ops" },
+  { value: "aircraft_parking_transit", label: "Transit Parking", icon: "🔄", category: "Ground Ops" },
+  
+  // Passenger Services
+  { value: "passenger_boarding", label: "Passenger Boarding", icon: "👥", category: "Passengers" },
+  { value: "passenger_deboarding", label: "Passenger Deboarding", icon: "👤", category: "Passengers" },
+  { value: "passenger_special_assistance", label: "Special Assistance", icon: "♿", category: "Passengers" },
+  { value: "wheelchair_assistance", label: "Wheelchair Assistance", icon: "♿", category: "Passengers" },
+  
+  // Weather Services
+  { value: "de_icing", label: "De-icing", icon: "❄️", category: "Weather" },
+  { value: "anti_icing", label: "Anti-icing", icon: "🧊", category: "Weather" },
+  
+  // Utilities & Services
+  { value: "lavatory_service", label: "Lavatory Service", icon: "🚽", category: "Utilities" },
+  { value: "water_service_potable", label: "Potable Water", icon: "💧", category: "Utilities" },
+  { value: "water_service_gray", label: "Gray Water Service", icon: "💨", category: "Utilities" },
+  
+  // Ground Equipment
+  { value: "stairs_positioning", label: "Stairs Positioning", icon: "🪜", category: "Equipment" },
+  { value: "stairs_removal", label: "Stairs Removal", icon: "📤", category: "Equipment" },
+  { value: "jetbridge_connection", label: "Jetbridge Connection", icon: "🌉", category: "Equipment" },
+  { value: "jetbridge_disconnection", label: "Jetbridge Disconnect", icon: "🔌", category: "Equipment" },
 ];
 
 export default function NewRequestDialog({
@@ -193,14 +206,27 @@ export default function NewRequestDialog({
                       <SelectTrigger data-testid="select-service-type">
                         <SelectValue placeholder="Select service type" />
                       </SelectTrigger>
-                      <SelectContent className="max-h-[200px] overflow-y-auto">
-                        {serviceTypes.map((service) => (
-                          <SelectItem key={service.value} value={service.value}>
-                            <span className="flex items-center space-x-2">
-                              <span>{service.icon}</span>
-                              <span>{service.label}</span>
-                            </span>
-                          </SelectItem>
+                      <SelectContent className="max-h-[300px] overflow-y-auto">
+                        {Object.entries(
+                          serviceTypes.reduce((acc, service) => {
+                            if (!acc[service.category]) acc[service.category] = [];
+                            acc[service.category].push(service);
+                            return acc;
+                          }, {} as Record<string, typeof serviceTypes>)
+                        ).map(([category, services]) => (
+                          <div key={category}>
+                            <div className="px-2 py-1 text-xs font-semibold text-muted-foreground bg-muted/50">
+                              {category}
+                            </div>
+                            {services.map((service) => (
+                              <SelectItem key={service.value} value={service.value}>
+                                <span className="flex items-center space-x-2">
+                                  <span>{service.icon}</span>
+                                  <span>{service.label}</span>
+                                </span>
+                              </SelectItem>
+                            ))}
+                          </div>
                         ))}
                       </SelectContent>
                     </Select>
